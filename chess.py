@@ -15,7 +15,9 @@ class Board(object):
 
     def setup_board(self):
         colors = ["white", "black"]
+        pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
         for color in colors:
+            # Sets up rows of pawns in appropriate spaces
             if color == "white":
                 y = 1
             else:
@@ -23,6 +25,14 @@ class Board(object):
             for x in xrange(8):
                 pawn = Pawn(color)
                 pawn.place_on_board(self, (y, x))
+            # Place rows 0 and 7
+            if color == "white":
+                y = 0
+            else:
+                y = 7
+            for x, piece in enumerate(pieces):
+                curr_piece = piece(color)
+                curr_piece.place_on_board(self, (y, x))
 
 
 class Piece(object):
@@ -38,9 +48,14 @@ class Piece(object):
         """
         board.board[location[0]][location[1]] = self
 
+    def __repr__(self):
+        """Prints out the piece name with color"""
+        return self.name
+
 
 class Pawn(Piece):
     """Inherits from Piece. Represents a Pawn"""
+    name =
 
 
 class Knight(Piece):
