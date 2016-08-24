@@ -56,14 +56,25 @@ class Board(object):
 
         """
         # Check to make sure loc1 contains a piece of the player's color
+        # Also check that loc2 is a valid spot
         try:
             piece = self.board[loc1[0]][loc1[1]]
-        except (TypeError, IndexError):
+            for num in loc2:
+                num = int(num)
+                if num < 0 or num > 7:
+                    return False
+        except (TypeError, IndexError, ValueError):
             return False
         if not isinstance(piece, Piece):
             return False
         if not piece.color == color:
             return False
+        # Check to make sure the move is valid
+        if not piece.check_move(loc1, loc2):
+            return False
+        # Now that all checks have been passed, move piece
+        self.board[loc2[0]][loc2[1]] = piece
+        self.board[loc1[0]][loc1[1]] = None
         return True
 
 
@@ -83,6 +94,10 @@ class Piece(object):
     def __repr__(self):
         """Prints out the piece name with color"""
         return "{}-{}".format(self.color[0], self.name[0:2])
+
+    def check_move(self, loc1, loc2):
+        """Skeleton function as a placeholder"""
+        return True
 
 
 class Pawn(Piece):
