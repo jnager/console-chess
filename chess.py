@@ -47,8 +47,24 @@ class Board(object):
                 curr_piece = piece(color)
                 curr_piece.place_on_board(self, (y, x))
 
-    def move_piece(loc1, loc2):
-        pass
+    def move_piece(self, loc1, loc2, color):
+        """Rearranges the board per passed in parameters.
+           Loc1 and loc2 should be tuples.
+
+           Will return True if move is allowable or False
+           if that is not a valid move.
+
+        """
+        # Check to make sure loc1 contains a piece of the player's color
+        try:
+            piece = self.board[loc1[0]][loc1[1]]
+        except (TypeError, IndexError):
+            return False
+        if not isinstance(piece, Piece):
+            return False
+        if not piece.color == color:
+            return False
+        return True
 
 
 class Piece(object):
